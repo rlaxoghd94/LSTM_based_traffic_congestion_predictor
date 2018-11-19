@@ -9,11 +9,11 @@
 ### Priorities
 1. Flask
  - [x] Flask 프로젝트 셋업
- - [ ] Naver Map API 획득
- - [ ] Naver Map API JavaScript 활성화
- - [ ] 지도 표시
- - [ ] 지도에 현재 위치 표시
- - [ ] 그래프 표시
+ - [x] openweathermap api 획득
+ - [x] openweathermap widget 활성화
+ - [ ] 현재 위도 경도 불러와서 widget 'city code' 갱신
+ - [x] chart.js 셋업
+ - [ ] PyTorch로 부터 받은 데이터로 chart.js 데이터 동적 관리
 
 2. PyTorch
 Soon to be added
