@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang='ko'>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>교통정체량확인기</title>
+    <link href="static/css/style.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script type="text/javascript" src="{{ url_for('static', filename = 'js/app.js') }}"></script>
+    <style>
+        .dropbtn {
+            background-color: #f06292;
+            color: black;
+            padding: 16px;
+            font-size: 16px;
+            border: none;
+        }
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f1f1f1;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+            z-index: 1;
+        }
+
+        .dropdown-content a {
+            color: black;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #ddd;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        .dropdown:hover .dropbtn {
+            background-color: #ff94c2;
+        }
+    </style>
+
+</head>
+<body onload="loadFuncs();">
+<!-- Top Container -->
+<div class="w3-bar w3-top w3-green w3-large" style="z-index:4">
+    <span class="w3-bar-item w3-right">Konkuk</span>
+</div>
+
+<div class="w3-main" style="margin-left:22px;margin-top:43px;">
+    <!-- Header -->
+    <header class="w3-container" style="padding-top:22px">
+        <h5><b>Dashboard</b></h5>
+    </header>
+
+    <!-- Card Summary -->
+    <div class="w3-row-padding w3-margin-bottom" onload="startTime();">
+        <div class="w3-quarter">
+            <div class="w3-container w3-red w3-padding-16">
+                <div class="w3-left"><img src="static/images/calendar.png"/></div>
+                <div class="w3-right">
+                    <h3 id="card__date">52</h3>
+                </div>
+                <div class="w3-clear"></div>
+                <h4>Date</h4>
+            </div>
+        </div>
+        <div class="w3-quarter">
+            <div class="w3-container w3-blue w3-padding-16">
+                <div class="w3-left"><img src="static/images/clock.png"/></div>
+                <div class="w3-right">
+                    <h3 id="card__time">99</h3>
+                </div>
+                <div class="w3-clear"></div>
+                <h4>Time</h4>
+            </div>
+        </div>
+        <div class="w3-quarter">
+            <div class="w3-container w3-teal w3-padding-16">
+                <div class="w3-left"><img src="static/images/weather.png"/></div>
+                <div class="w3-right">
+                    <h3 id="card__weather">23</h3>
+                </div>
+                <div class="w3-clear"></div>
+                <h4>Weather</h4>
+            </div>
+        </div>
+        <div class="w3-quarter">
+            <div class="w3-container w3-orange w3-text-white w3-padding-16">
+                <div class="w3-left"><img src="static/images/location.png"/></div>
+                <div class="w3-right">
+                    <h3 id="card__location">50</h3>
+                </div>
+                <div class="w3-clear"></div>
+                <h4>Location</h4>
+            </div>
+        </div>
+    </div>
+
+    <div class="w3-panel">
+        <div class="w3-row-padding" style="margin:0 -16px">
+            <div class="w3-third">
+                <h5>Regions</h5>
+                <div class="dropdown" style="display: inline-block;">
+                    <button class="dropbtn">Dropdown</button>
+                    <div id="dropdown_content" class="dropdown-content">
+                        <a href="#" onclick="dropDownHandler('kyungboo')">경부고속도로</a>
+                        <a href="#" onclick="dropDownHandler('seoul')">서울외곽순환도로</a>
+                        <a href="#" onclick="dropDownHandler('seohaean')">서해안고속도로</a>
+                        <a href="#" onclick="dropDownHandler('yongin')">용인서울고속도로</a>
+                    </div>
+                </div>
+                <div id="imgPlaceholder"></div>
+                <!--<img src="/w3images/region.jpg" style="width:100%" alt="Google Regional Map">-->
+            </div>
+            <div class="w3-twothird">
+                <h5>Sections</h5>
+                <table class="w3-table w3-striped w3-white">
+                    <tr>
+                        <td><i class="fa fa-user w3-text-blue w3-large"></i></td>
+                        <td>New record, over 90 views.</td>
+                        <td><i>10 mins</i></td>
+                    </tr>
+                    <tr>
+                        <td><i class="fa fa-bell w3-text-red w3-large"></i></td>
+                        <td>Database error.</td>
+                        <td><i>15 mins</i></td>
+                    </tr>
+                    <tr>
+                        <td><i class="fa fa-users w3-text-yellow w3-large"></i></td>
+                        <td>New record, over 40 users.</td>
+                        <td><i>17 mins</i></td>
+                    </tr>
+                    <tr>
+                        <td><i class="fa fa-comment w3-text-red w3-large"></i></td>
+                        <td>New comments.</td>
+                        <td><i>25 mins</i></td>
+                    </tr>
+                    <tr>
+                        <td><i class="fa fa-bookmark w3-text-blue w3-large"></i></td>
+                        <td>Check transactions.</td>
+                        <td><i>28 mins</i></td>
+                    </tr>
+                    <tr>
+                        <td><i class="fa fa-laptop w3-text-red w3-large"></i></td>
+                        <td>CPU overload.</td>
+                        <td><i>35 mins</i></td>
+                    </tr>
+                    <tr>
+                        <td><i class="fa fa-share-alt w3-text-green w3-large"></i></td>
+                        <td>New shares.</td>
+                        <td><i>39 mins</i></td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <hr>
+    <div class="w3-container">
+        <h5>Past and Expected Statistics</h5>
+        <div id="chartDiv"></div>
+    </div>
+    <hr>
+
+</div>
+</body>
+
+<script>
+    // const URL_YAHOO = "https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20weather.forecast%20where%20woeid%20in%20(SELECT%20woeid%20FROM%20geo.places%20WHERE%20text%3D%22({VAR1}%2C{VAR2})%22)&format=xml&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys";
+    const URL_YAHOO = "https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20weather.forecast%20where%20woeid%20in%20(SELECT%20woeid%20FROM%20geo.places%20WHERE%20text%3D%22({VAR1}%2C{VAR2})%22)%20and%20u%3D'c'&format=xml&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys";
+
+    var url_temp = URL_YAHOO;
+    var geoLat, geoLng = "";
+
+    function loadFuncs() {
+        //set time
+        startTime();
+
+        //get location
+        fetchLocation();
+
+    }
+
+    /*
+     * @desc : fetches date and time
+     */
+    function startTime() {
+        var today = new Date();
+        var y = today.getFullYear();
+        var mm = today.getMonth();
+        var dd = today.getDay();
+
+        mm = checkTime(mm);
+        dd = checkTime(dd);
+
+        var h = today.getHours();
+        var m = today.getMinutes();
+        var s = today.getSeconds();
+        m = checkTime(m);
+        s = checkTime(s);
+        document.getElementById('card__date').innerHTML = y + "/" + mm + "/" + dd;
+        document.getElementById('card__time').innerHTML =
+            h + ":" + m + ":" + s;
+        var t = setTimeout(startTime, 500);
+    }
+
+    function checkTime(i) {
+        if (i < 10) {
+            i = "0" + i
+        }
+        // add zero in front of numbers < 10
+        return i;
+    }
+
+    function fetchLocation() {
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(getLatLng);
+        } else {
+            alert('Geolocation is not supported by this browser.');
+        }
+    }
+
+    function getLatLng(position) {
+        geoLat = position.coords.latitude;
+        geoLng = position.coords.longitude;
+        var temp1 = url_temp.replace("{VAR1}", String(geoLat));
+        var temp2 = temp1.replace("{VAR2}", String(geoLng));
+        url_temp = temp2;
+
+        console.log("Lat: " + geoLat + ", Lng: " + geoLng);
+
+        //get weather
+        fetchWeather();
+    }
+
+    function fetchWeather() {
+        var xmlhttp = null;
+
+        // XMLHttpRequest browser support check
+        if (window.XMLHttpRequest) {
+            xmlhttp = new XMLHttpRequest();
+            if (typeof xmlhttp.overrideMimeType != 'undefined') {
+                xmlhttp.overrideMimeType('text/xml');
+            }
+        } else if (window.ActiveXObject) {
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        } else {
+            alert('Perhaps your browser does not support xmlhttprequests?');
+        }
+
+
+        // xmlhttprequest handler
+        xmlhttp.onreadystatechange = function () {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                //success: write code HERE
+                parseXMLRequest(xmlhttp.responseXML);
+            } else {
+                //wait for the call to complete
+            }
+        };
+
+
+        if (URL_YAHOO !== url_temp) {
+            console.log("UTL: " + url_temp);
+            xmlhttp.open('GET', url_temp, true);
+            xmlhttp.send();
+        } else {
+            console.log("URL(1): " + URL_YAHOO);
+            console.log("URL(2): " + url_temp);
+        }
+    }
+
+    function parseXMLRequest(xml) {
+        var city = "";
+        var temp = "";
+        var x = xml.getElementsByTagName("yweather:location");
+        for (var i = 0; i < x.length; i++) {
+            city += x[i].getAttribute('city') + "<br>";
+            console.log("- " + i + ": " + x[i].getAttribute('city'));
+        }
+
+        var x = xml.getElementsByTagName("yweather:condition");
+        for (var i = 0; i < x.length; i++) {
+            temp += x[i].getAttribute('temp') + "<br>";
+            console.log("- " + i + ": " + x[i].getAttribute('temp'));
+        }
+
+        document.getElementById("card__location").innerHTML = city;
+        document.getElementById("card__weather").innerHTML = temp;
+    }
+
+    function dropDownHandler(highway) {
+        var x = document.getElementById("imgPlaceholder");
+        var imgLocation = "/static/" + highway + ".png";
+        var text = "";
+        text += "<img src=\"";
+        text += imgLocation;
+        text += "\" hight=\"100%\" width=\"100%\" />";
+        x.innerHTML = text;
+        getSetChart(highway);
+    }
+
+    function getSetChart(highway) {
+        var x = document.getElementById("chartDiv");
+        var text = "";
+        text += "<canvas id=\"myChart\" class=\"mappadding\"></canvas>";
+        x.innerHTML = text;
+
+        // TODO: fetch and set speed data HERE
+        var chartData = {
+            labels: [13, 14, 15, 16, 17, 18, 19],
+            datasets: [{
+                label: "[" + highway + " forward] Time vs Average Speed",
+                fill: true,
+                lineTension: 0.1,
+                backgroundColor: "rgba(75, 192, 192, 0.4)",
+                borderColor: "rgba(75, 192, 192, 1)",
+                borderCapStyle: 'butt',
+                borderDash: [],
+                borderDashOffset: 0.0,
+                borderJoinStyle: 'miter',
+                pointBorderColor: "rgba(75, 192, 192, 1)",
+                pointBackgroundColor: "#fff",
+                pointBorderWidth: 1,
+                pointHoverRadius: 5,
+                pointHoverBackgroundColor: "rgba(75, 192, 192, 1)",
+                pointHoverBorderColor: "rgba(220, 220, 220, 1)",
+                pointHoverBorderWidth: 2,
+                pointRadius: 1,
+                pointHitRadius: 10,
+                data: [20, 40, 60, 80, 100, 40, 80, 20],
+                spanGaps: false
+            }, {
+                label: "[" + highway + " backward] Time vs Average Speed",
+                fill: true,
+                lineTension: 0.1,
+                backgroundColor: "rgba(192, 75, 192, 0.4)",
+                borderColor: "rgba(192, 75, 192, 1)",
+                borderCapStyle: 'butt',
+                borderDash: [],
+                borderDashOffset: 0.0,
+                borderJoinStyle: 'miter',
+                pointBorderColor: "rgba(192, 75, 192, 1)",
+                pointBackgroundColor: "#fff",
+                pointBorderWidth: 1,
+                pointHoverRadius: 5,
+                pointHoverBackgroundColor: "rgba(192, 75, 192, 1)",
+                pointHoverBorderColor: "rgba(220, 220, 220, 1)",
+                pointHoverBorderWidth: 2,
+                pointRadius: 1,
+                pointHitRadius: 10,
+                data: [80, 60, 40, 90, 100, 70, 90, 20],
+                spanGaps: false
+            }]
+        };
+        var ctx = document.getElementById("myChart");
+        var myChart = new Chart(ctx, {
+            type: 'line',
+            data: chartData,
+        });
+    }
+</script>
+<script type="text/javascript" src="/static/Chart.min.js"></script>
+</html>
