@@ -6,6 +6,7 @@ import time
 import numpy as np
 import json
 from crawling_tool import parseURL
+import predict
 
 # 서울외곽순환도로
 up_1000 = 'http://www.roadplus.co.kr/trafficState.do?roadIdS=H1002&roadIdE=H1001&roadName=%EC%84%9C%EC%9A%B8%EC%99%B8%EA%B3%BD%EC%88%9C%ED%99%98%EA%B3%A0%EC%86%8D%EB%8F%84%EB%A1%9C&mCode=A050010&op=highwayItem&highway=&bound=E&state=small&onPage=&noTab='
@@ -80,9 +81,11 @@ def getData(roadName):
 
     parsedList = parseURL(url)
     data = formatData(roadName[-1], parsedList, road)
-    temp_csv(data, road)
-    print(tempData)
-    return json.dumps(tempData)
+    print(data)
+    data = predict.main(data)
+    #temp_csv(data, road)
+    #print(tempData)
+    return json.dumps(data)
 
 
 def temp_csv(data, road):
@@ -152,8 +155,9 @@ def combineData(sectionList, name):
 def insertCurrentData(sectionList, currentList):
     sectionListLen = len(sectionList)
     i = 0
+    print(currentList)
     for rowData in sectionList:
-        rowData.insert(0, int(currentList[i]))
+        rowData.insert(0, currentList[i])
         i += 1
 
     return sectionList
