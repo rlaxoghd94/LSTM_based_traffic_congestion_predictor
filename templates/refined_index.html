@@ -29,7 +29,7 @@
             display: none;
             position: absolute;
             background-color: #f1f1f1;
-            min-width: 160px;
+            min-width: 180px;
             box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
             z-index: 1;
         }
@@ -52,9 +52,22 @@
         .dropdown:hover .dropbtn {
             background-color: #ff94c2;
         }
+
+        .tableContainer {
+            height: 400px;
+            width: 100%;
+            overflow-y: auto;
+        }
+
     </style>
 
 </head>
+{##}
+{#<script>#}
+{#    var pastFutureData = fetch('/tempData');#}
+{#    console.log(pastFutureData);#}
+{#</script>#}
+
 <body onload="loadFuncs();">
 <!-- Top Container -->
 <div class="w3-bar w3-top w3-green w3-large" style="z-index:4">
@@ -73,7 +86,7 @@
             <div class="w3-container w3-red w3-padding-16">
                 <div class="w3-left"><img src="static/images/calendar.png"/></div>
                 <div class="w3-right">
-                    <h3 id="card__date">52</h3>
+                    <h3 id="card__date">0000/00/00</h3>
                 </div>
                 <div class="w3-clear"></div>
                 <h4>Date</h4>
@@ -83,7 +96,7 @@
             <div class="w3-container w3-blue w3-padding-16">
                 <div class="w3-left"><img src="static/images/clock.png"/></div>
                 <div class="w3-right">
-                    <h3 id="card__time">99</h3>
+                    <h3 id="card__time">00:00:00</h3>
                 </div>
                 <div class="w3-clear"></div>
                 <h4>Time</h4>
@@ -93,7 +106,7 @@
             <div class="w3-container w3-teal w3-padding-16">
                 <div class="w3-left"><img src="static/images/weather.png"/></div>
                 <div class="w3-right">
-                    <h3 id="card__weather">23</h3>
+                    <h3 id="card__weather">0</h3>
                 </div>
                 <div class="w3-clear"></div>
                 <h4>Weather</h4>
@@ -103,7 +116,7 @@
             <div class="w3-container w3-orange w3-text-white w3-padding-16">
                 <div class="w3-left"><img src="static/images/location.png"/></div>
                 <div class="w3-right">
-                    <h3 id="card__location">50</h3>
+                    <h3 id="card__location">unknown</h3>
                 </div>
                 <div class="w3-clear"></div>
                 <h4>Location</h4>
@@ -111,61 +124,101 @@
         </div>
     </div>
 
+    <!-- Regions and Sections -->
     <div class="w3-panel">
         <div class="w3-row-padding" style="margin:0 -16px">
+            <!-- Regions -->
             <div class="w3-third">
                 <h5>Regions</h5>
                 <div class="dropdown" style="display: inline-block;">
                     <button class="dropbtn">Dropdown</button>
                     <div id="dropdown_content" class="dropdown-content">
-                        <a href="#" onclick="dropDownHandler('kyungboo')">경부고속도로</a>
-                        <a href="#" onclick="dropDownHandler('seoul')">서울외곽순환도로</a>
-                        <a href="#" onclick="dropDownHandler('seohaean')">서해안고속도로</a>
-                        <a href="#" onclick="dropDownHandler('yongin')">용인서울고속도로</a>
+                        <a href="#" onclick="dropDownHandler('1000_E')">서울외곽순환도로(상행)</a>
+                        <a href="#" onclick="dropDownHandler('1200_E')">경인고속도로(상행)</a>
+                        <a href="#" onclick="dropDownHandler('0150_E')">서해안고속도로(상행)</a>
+                        <a href="#" onclick="dropDownHandler('0600_E')">서울양양고속도로(상행)</a>
+                        <a href="#" onclick="dropDownHandler('1000_S')">서울외곽순환도로(하행)</a>
+                        <a href="#" onclick="dropDownHandler('1200_S')">경인고속도로(하행)</a>
+                        <a href="#" onclick="dropDownHandler('0150_S')">서해안고속도로(하행)</a>
+                        <a href="#" onclick="dropDownHandler('0600_S')">서울양양고속도로(하행)</a>
+                        {#                        # 서울외곽순환도로#}
+                        {## 경인고속도로#}
+                        {## 서해안고속도로#}
+                        {## 서울양양고속도로#}
                     </div>
                 </div>
                 <div id="imgPlaceholder"></div>
                 <!--<img src="/w3images/region.jpg" style="width:100%" alt="Google Regional Map">-->
             </div>
+
+            <!-- Sections -->
             <div class="w3-twothird">
-                <h5>Sections</h5>
-                <table class="w3-table w3-striped w3-white">
-                    <tr>
-                        <td><i class="fa fa-user w3-text-blue w3-large"></i></td>
-                        <td>New record, over 90 views.</td>
-                        <td><i>10 mins</i></td>
-                    </tr>
-                    <tr>
-                        <td><i class="fa fa-bell w3-text-red w3-large"></i></td>
-                        <td>Database error.</td>
-                        <td><i>15 mins</i></td>
-                    </tr>
-                    <tr>
-                        <td><i class="fa fa-users w3-text-yellow w3-large"></i></td>
-                        <td>New record, over 40 users.</td>
-                        <td><i>17 mins</i></td>
-                    </tr>
-                    <tr>
-                        <td><i class="fa fa-comment w3-text-red w3-large"></i></td>
-                        <td>New comments.</td>
-                        <td><i>25 mins</i></td>
-                    </tr>
-                    <tr>
-                        <td><i class="fa fa-bookmark w3-text-blue w3-large"></i></td>
-                        <td>Check transactions.</td>
-                        <td><i>28 mins</i></td>
-                    </tr>
-                    <tr>
-                        <td><i class="fa fa-laptop w3-text-red w3-large"></i></td>
-                        <td>CPU overload.</td>
-                        <td><i>35 mins</i></td>
-                    </tr>
-                    <tr>
-                        <td><i class="fa fa-share-alt w3-text-green w3-large"></i></td>
-                        <td>New shares.</td>
-                        <td><i>39 mins</i></td>
-                    </tr>
-                </table>
+                <h5>구간 별 소요시간</h5>
+                <div class="tableContainer">
+                    <table class="w3-table w3-striped w3-white">
+                        <thead>
+                        <tr>
+                            <th>구간</th>
+                            <th>현재</th>
+                            <th>+1</th>
+                            <th>+2</th>
+                            <th>+3</th>
+                        </tr>
+                        </thead>
+                        <tbody id="sectionChart__tbody">
+                        <tr>
+                            <td>EMPTY</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>EMPTY</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>EMPTY</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>EMPTY</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>EMPTY</td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
@@ -183,7 +236,6 @@
 <script>
     // const URL_YAHOO = "https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20weather.forecast%20where%20woeid%20in%20(SELECT%20woeid%20FROM%20geo.places%20WHERE%20text%3D%22({VAR1}%2C{VAR2})%22)&format=xml&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys";
     const URL_YAHOO = "https://query.yahooapis.com/v1/public/yql?q=select%20*%20from%20weather.forecast%20where%20woeid%20in%20(SELECT%20woeid%20FROM%20geo.places%20WHERE%20text%3D%22({VAR1}%2C{VAR2})%22)%20and%20u%3D'c'&format=xml&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys";
-
     var url_temp = URL_YAHOO;
     var geoLat, geoLng = "";
 
@@ -268,7 +320,7 @@
         xmlhttp.onreadystatechange = function () {
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
                 //success: write code HERE
-                parseXMLRequest(xmlhttp.responseXML);
+                parseWeatherXMLRequest(xmlhttp.responseXML);
             } else {
                 //wait for the call to complete
             }
@@ -285,7 +337,7 @@
         }
     }
 
-    function parseXMLRequest(xml) {
+    function parseWeatherXMLRequest(xml) {
         var city = "";
         var temp = "";
         var x = xml.getElementsByTagName("yweather:location");
@@ -304,15 +356,76 @@
         document.getElementById("card__weather").innerHTML = temp;
     }
 
+    function parseSectionXML(xml, roadName) {
+        var roads = xml.getElementsByTagName("roads");
+        for (var i = 0; i < roads.length; i++) {
+            if (x[i].getAttribute('name') == roadName) {
+                var sections = x[i].children();
+                for (var j = 0; j < sections.length; j++) {
+                    // @desc - single section data = sections[j]
+
+                }
+            }
+        }
+    }
+
     function dropDownHandler(highway) {
         var x = document.getElementById("imgPlaceholder");
-        var imgLocation = "/static/" + highway + ".png";
+        var highway_len = highway.length - 2;
+        var newHighway = highway.substr(0, highway_len);
+        var imgLocation = "/static/" + newHighway + ".png";
         var text = "";
         text += "<img src=\"";
         text += imgLocation;
         text += "\" hight=\"100%\" width=\"100%\" />";
         x.innerHTML = text;
         getSetChart(highway);
+
+        var xmlhttp = null;
+
+        // XMLHttpRequest browser support check
+        if (window.XMLHttpRequest) {
+            xmlhttp = new XMLHttpRequest();
+            if (typeof xmlhttp.overrideMimeType != 'undefined') {
+                xmlhttp.overrideMimeType('text/xml');
+            }
+        } else if (window.ActiveXObject) {
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        } else {
+            alert('Perhaps your browser does not support xmlhttprequests?');
+        }
+
+        url = "http://localhost:8080/getChartData/" + highway;
+        xmlhttp.onreadystatechange = function () {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                //success: write code HERE
+                parseTableReq(xmlhttp.responseText);
+            } else {
+                //wait for the call to complete
+            }
+        };
+        xmlhttp.open('GET', url, true);
+        xmlhttp.send();
+    }
+
+    function parseTableReq(data) {
+        var jsonData = JSON.parse(data);
+        console.log(jsonData);
+
+        var data = jsonData.data;
+        var name = jsonData.name;
+        var text = "";
+
+        for (var i = 0; i < data.length; i++) {
+            text += "<tr>";
+            text += "<td>" + name[i] + "</td>";
+            text += "<td>" + data[i][0] + "</td>";
+            text += "<td>" + data[i][1] + "</td>";
+            text += "<td>" + data[i][2] + "</td>";
+            text += "<td>" + data[i][3] + "</td>";
+            text += "</tr>";
+        }
+        document.getElementById("sectionChart__tbody").innerHTML = text;
     }
 
     function getSetChart(highway) {
