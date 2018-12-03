@@ -73,6 +73,7 @@ def predictor(lstm, inp, d_inp, first_val, n_times=3):
 		#print(mod_d_inp)
 		#print(mod_inp[i+1:].size())
 		inp = mod_inp[i+1:].reshape(6,4,-1)#seq_len, batch, -1
+		#print(inp)
 		d_inp = mod_d_inp[i+1:].reshape(1,-1)
 		all_output.append(output[0][-1])
 	
@@ -97,15 +98,17 @@ def get_timenow(hol_date):
 	yesterday_date = yesterday[:-3]
 	yesterday_time = int(yesterday[-2:])
 
-	now_tl = range(0, _now_time+1)
-	yes_tl = range(yesterday_time+1, 24)
+	#now_tl = range(0, _now_time+1)
+	#yes_tl = range(yesterday_time+1, 24)
+	now_tl = range(0, 17)
+	yes_tl = range(17, 24)
 	#hv = yes_tl + now_tl
 	prev_hol_vec = holiday_vector(yesterday_date, hol_date, yes_tl)
 	hol_vec = holiday_vector(_now_date, hol_date, now_tl)
 	#hol_vec.append(_now_time)
 	return_vec = torch.tensor(prev_hol_vec+hol_vec, dtype=torch.float32)
 	#print(return_vec[-1][-1])
-	print(return_vec.size())
+	#print(return_vec.size())
 	return return_vec.reshape(1,-1)
 
 def pre_processor(target_dict):
@@ -123,6 +126,17 @@ def pre_processor(target_dict):
 	lstm = torch.load("lstm_"+road+"_"+direction+".pt", map_location='cpu')
 	past_data = read_data(file_path)
 	use_data = past_data[0:,17:40]#16시 기준
+	#print(use_data)
+	#print(use_data.size(), data.size())
+	zero_v = torch.tensor([0], dtype=torch.float32)
+	if data.size()[0] != use_data.size()[0]:
+		#print("wow?")
+		data = past_data[0:, 40].reshape(-1, 1)
+	for i in data:
+		if i.item() == 0:
+			data = past_data[0:, 40].reshape(-1, 1)
+			break
+	#print(data.size())
 	use_data = torch.cat((use_data, data), dim=1).transpose(0,1)#.reshape(6, 4, -1)
 
 	#print('tq', use_data.size())
@@ -131,7 +145,7 @@ def pre_processor(target_dict):
 	use_data = torch.div(60*time_data, use_data)
 	#print()
 	first_val = use_data[-1][:]
-	use_data = use_data.transpose(0,1).reshape(6,4,-1)
+	use_data = use_data.reshape(6,4,-1)#.transpose(0,1)
 	
 	#use_data = torch.cat((use_data, data), dim=0).reshape(6, 4, -1)
 	#print(use_data.size())
@@ -177,7 +191,7 @@ if __name__ == '__main__':
 	hv = torch.tensor(prev_h, dtype=torch.float32).reshape(1, -1)
 	#hv = get_timenow(hol_date)
 	#print(hv)
-	inp = test_data[0:,1193:1217]
+	inp = test_data[0:,1193:1217]#38*24
 	#print(inp)
 	inp = torch.tensor(inp).transpose(0,1).reshape(6,4,-1)
 	r_inp = torch.div(60*distance_dict['ws_S'], inp)

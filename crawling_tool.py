@@ -114,7 +114,7 @@ def dataInpection(col):
         nextIdx += 1
     return col
 
-
+'''
 def refineData(col):
     data = {}
     sectionData = []
@@ -127,6 +127,35 @@ def refineData(col):
         end = col[i][1]
         strEnd = start + ' -> ' + end
         sectionName.append(strEnd)
+
+    data['data'] = sectionData
+    data['name'] = sectionName
+    return data
+'''
+def refineData(col):
+    data = {}
+    sectionData = []
+    sectionName = []
+
+    for i in range(0, len(col)):
+        speed = col[i][2]
+        sectionData.append(speed[:-4])
+        start = col[i][0]
+        end = col[i][1]
+        strEnd = start + ' -> ' + end
+        sectionName.append(strEnd)
+
+    cur = 0
+    next = 1
+    sectionLen = len(sectionData)
+    while next != (sectionLen - 1):
+       if sectionName[cur] == sectionName[next]:
+          sectionData.remove( sectionData[next] )
+          sectionName.remove( sectionName[next] )
+          sectionLen -= 1
+
+       cur += 1
+       next += 1
 
     data['data'] = sectionData
     data['name'] = sectionName

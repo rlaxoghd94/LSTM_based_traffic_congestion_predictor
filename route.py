@@ -81,7 +81,7 @@ def getData(roadName):
 
     parsedList = parseURL(url)
     data = formatData(roadName[-1], parsedList, road)
-    print(data)
+    #print(data)
     data = predict.main(data)
     #temp_csv(data, road)
     #print(tempData)
