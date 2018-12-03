@@ -62,11 +62,6 @@
     </style>
 
 </head>
-{##}
-{#<script>#}
-{#    var pastFutureData = fetch('/tempData');#}
-{#    console.log(pastFutureData);#}
-{#</script>#}
 
 <body onload="loadFuncs();">
 <!-- Top Container -->
@@ -254,8 +249,8 @@
     function startTime() {
         var today = new Date();
         var y = today.getFullYear();
-        var mm = today.getMonth();
-        var dd = today.getDay();
+        var mm = today.getMonth() + 1; // 이거 +1 추가
+        var dd = today.getDate(); // 이거 .getDay에서 getDate로 변경
 
         mm = checkTime(mm);
         dd = checkTime(dd);
@@ -467,7 +462,7 @@
                 borderCapStyle: 'butt',
                 borderDash: [],
                 borderDashOffset: 0.0,
-                borderJoinStyle: 'miter',
+                borderJoinStyle: 'miter', 
                 pointBorderColor: "rgba(192, 75, 192, 1)",
                 pointBackgroundColor: "#fff",
                 pointBorderWidth: 1,
