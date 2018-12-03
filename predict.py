@@ -98,10 +98,10 @@ def get_timenow(hol_date):
 	yesterday_date = yesterday[:-3]
 	yesterday_time = int(yesterday[-2:])
 
-	#now_tl = range(0, _now_time+1)
-	#yes_tl = range(yesterday_time+1, 24)
-	now_tl = range(0, 17)
-	yes_tl = range(17, 24)
+	now_tl = range(0, _now_time+1)
+	yes_tl = range(yesterday_time+1, 24)
+	#now_tl = range(0, 17)
+	#yes_tl = range(17, 24)
 	#hv = yes_tl + now_tl
 	prev_hol_vec = holiday_vector(yesterday_date, hol_date, yes_tl)
 	hol_vec = holiday_vector(_now_date, hol_date, now_tl)
