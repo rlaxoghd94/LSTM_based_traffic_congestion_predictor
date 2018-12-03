@@ -53,82 +53,28 @@ def getData(roadName):
 
     if '1000_E' in roadName:
         url = up_1000
-        print()
     elif '1000_S' in roadName:
         url = down_1000
-        print()
     elif '1200_E' in roadName:
         url = up_1200
-        print()
     elif '1200_S' in roadName:
         url = down_1200
-        print()
     elif '0150_E' in roadName:
         url = up_0150
-        print()
     elif '0150_S' in roadName:
         url = down_0150
-        print()
     elif '0600_E' in roadName:
         url = up_0600
-        print()
     elif '0600_S' in roadName:
         url = up_0600
-        print()
     else:
         print('\t[+] ERROR in roadName request - {}'.format(roadName))
         return
 
     parsedList = parseURL(url)
     data = formatData(roadName[-1], parsedList, road)
-    #print(data)
     data = predict.main(data)
-    #temp_csv(data, road)
-    #print(tempData)
     return json.dumps(data)
-
-
-def temp_csv(data, road):
-    global tempData
-    csv_E = pd.read_csv('1000_E.csv')
-    currentHr = int(time.strftime("%H")) + 12
-    pastFutureData = csv_E.values[0:, currentHr + 1:currentHr + 4]
-    tempData['data'] = pastFutureData.tolist()
-    combineData(data, road)
-
-
-def init():
-    global tempData
-    parsedE_1000 = parseURL(up_1000)
-    parsedS_1000 = parseURL(down_1000)
-    dataE_1000 = formatData("E", parsedE_1000, '1000')
-    dataS_1000 = formatData("S", parsedS_1000, '1000')
-    # parsedE_1200 = parseURL(up_1200)
-    # parsedS_1200 = parseURL(down_1200)
-    # dataE_1200 = formatData("E", parsedE_1200, '1200')
-    # dataE_1200 = formatData("S", parsedS_1200, '1200')
-    # parsedE_0150 = parseURL(up_0150)
-    # parsedS_0150 = parseURL(down_0150)
-    # dataE_0150 = formatData("E", parsedE_0150, '0150')
-    # dataE_0150 = formatData("S", parsedS_0150, '0150')
-    # parsedE_0600 = parseURL(up_0600)
-    # parsedS_0600 = parseURL(down_0600)
-    # dataE_0600= formatData("E", parsedE_0600, '0600')
-    # dataE_0600= formatData("S", parsedS_0600, '0600')
-
-    csv_E = pd.read_csv('1000_E.csv')
-    csv_S = pd.read_csv('1000_S.csv')
-    currentHr = int(time.strftime("%H")) + 12
-
-    pastFutureData_E = csv_E.values[0:, currentHr - 3:currentHr + 3]
-    pastFutureData_S = csv_S.values[0:, currentHr - 3:currentHr + 3]
-    print(currentHr)
-    tempData['E'] = pastFutureData_E.tolist()
-    tempData['S'] = pastFutureData_S.tolist()
-    # print(tempData)
-    combineData(parsedE_1000, parsedS_1000, '1000')
-    print(tempData)
-
 
 def formatData(direction, sectionList, name):
     data = {}
@@ -137,9 +83,6 @@ def formatData(direction, sectionList, name):
     data['data'] = sectionList['data']
     data['name'] = sectionList['name']
 
-    # savedict = open('output1.txt', 'w')
-    # savedict.write(str(data))
-    # savedict.close()
     return data
 
 
