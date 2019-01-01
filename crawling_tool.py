@@ -88,8 +88,6 @@ def printCol(col):
     2. 속도
     3. 거리
     '''
-
-
 def dataInpection(col):
     colLen = len(col)
     nextIdx = 1
@@ -107,13 +105,11 @@ def dataInpection(col):
             curTime = cur[3]
             nextTime = next[3]
             cur[3] = str((int(curTime[:-1]) + int(nextTime[:-1]))) + '분'
-            print('\t\t\t[removed]-{}'.format(tempP))
             col.remove(col[nextIdx])
             colLen -= 1
         curIdx += 1
         nextIdx += 1
     return col
-
 
 def refineData(col):
     data = {}
@@ -128,8 +124,19 @@ def refineData(col):
         strEnd = start + ' -> ' + end
         sectionName.append(strEnd)
 
+    cur = 0
+    next = 1
+    sectionLen = len(sectionData)
+    while next != (sectionLen - 1):
+       if sectionName[cur] == sectionName[next]:
+          sectionData.remove( sectionData[next] )
+          sectionName.remove( sectionName[next] )
+          sectionLen -= 1
+
+       cur += 1
+       next += 1
+
     data['data'] = sectionData
     data['name'] = sectionName
     return data
 
-# parseURL(url_up)

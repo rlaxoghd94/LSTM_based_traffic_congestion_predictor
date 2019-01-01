@@ -249,8 +249,13 @@
     function startTime() {
         var today = new Date();
         var y = today.getFullYear();
+<<<<<<< HEAD
         var mm = today.getMonth() + 1; // 이거 +1 추가
         var dd = today.getDate(); // 이거 .getDay에서 getDate로 변경
+=======
+        var mm = today.getMonth()+1;
+        var dd = today.getDate();
+>>>>>>> mix
 
         mm = checkTime(mm);
         dd = checkTime(dd);
@@ -374,7 +379,7 @@
         text += imgLocation;
         text += "\" hight=\"100%\" width=\"100%\" />";
         x.innerHTML = text;
-        getSetChart(highway);
+
 
         var xmlhttp = null;
 
@@ -394,7 +399,7 @@
         xmlhttp.onreadystatechange = function () {
             if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
                 //success: write code HERE
-                parseTableReq(xmlhttp.responseText);
+                parseTableReq(xmlhttp.responseText, highway);
             } else {
                 //wait for the call to complete
             }
@@ -403,7 +408,7 @@
         xmlhttp.send();
     }
 
-    function parseTableReq(data) {
+    function parseTableReq(data, highway) {
         var jsonData = JSON.parse(data);
         console.log(jsonData);
 
@@ -421,19 +426,28 @@
             text += "</tr>";
         }
         document.getElementById("sectionChart__tbody").innerHTML = text;
+        
+        getSetChart(highway, data, name);
     }
 
-    function getSetChart(highway) {
+    function getSetChart(highway, currentList, nameList) {
         var x = document.getElementById("chartDiv");
         var text = "";
         text += "<canvas id=\"myChart\" class=\"mappadding\"></canvas>";
         x.innerHTML = text;
 
+        var chartInput = [];
+        var nameInput = [];
+        for (var i = 0 ; i < currentList.length; i++){
+            chartInput.push(currentList[i][0]);
+            nameInput.push(nameList[i]);
+        }
+
         // TODO: fetch and set speed data HERE
         var chartData = {
-            labels: [13, 14, 15, 16, 17, 18, 19],
+            labels: nameInput,
             datasets: [{
-                label: "[" + highway + " forward] Time vs Average Speed",
+                label: "구간별 소요시간",
                 fill: true,
                 lineTension: 0.1,
                 backgroundColor: "rgba(75, 192, 192, 0.4)",
@@ -451,6 +465,7 @@
                 pointHoverBorderWidth: 2,
                 pointRadius: 1,
                 pointHitRadius: 10,
+<<<<<<< HEAD
                 data: [20, 40, 60, 80, 100, 40, 80, 20],
                 spanGaps: false
             }, {
@@ -473,6 +488,9 @@
                 pointRadius: 1,
                 pointHitRadius: 10,
                 data: [80, 60, 40, 90, 100, 70, 90, 20],
+=======
+                data: chartInput,
+>>>>>>> mix
                 spanGaps: false
             }]
         };
